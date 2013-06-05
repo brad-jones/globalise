@@ -1,0 +1,19 @@
+{
+	"name": "globalise",
+	"description": "Making node more like say PHP :)",
+	"author":{"name": "Brad Jones", "email": "brad@bjc.id.au"},
+	"version": "0.0.2",
+	"keywords": ["global", "namespace", "class", "autoload"],
+	"readmeFilename": "README.md",
+	"main": "./index",
+	"repository":
+	{
+		"type": "git",
+		"url": "git://github.com/brad-jones/globalise.git"
+	},
+	"dependencies":
+	{
+		"classical": "x.x.x",
+		"file": "x.x.x"
+	}
+}
