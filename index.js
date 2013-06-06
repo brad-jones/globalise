@@ -55,7 +55,23 @@ global.Namespace = function(name, value)
 	}
 	
 	// If a value was given, set it to the last name:
-	if (lastName) base = base[lastName] = value;
+	if (lastName)
+	{
+		// If the value is a function we want to make sure it's
+		// this variable is not tied to the global scope.
+		if (typeof value == 'function')
+		{
+			base = base[lastName] = function()
+			{
+				return value.apply({}, arguments);
+			};
+		}
+		else
+		{
+			base = base[lastName] = value;
+		}
+		
+	}
 };
 
 /**
@@ -114,7 +130,7 @@ core_modules.forEach(function(module)
 	// Just double check it doesn't already exist
 	if (typeof global[module] == 'undefined')
 	{
-		Namespace(module, require(module));
+		global[module] = require(module);
 	}
 });
 
@@ -132,7 +148,7 @@ function LoadModules(module)
 			{
 				// Require the module and load what it
 				// exports into the global scope
-				Namespace(module, require(module));
+				global[module] = require(module);
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 	"name": "globalise",
 	"description": "Making node more like say PHP :)",
 	"author":{"name": "Brad Jones", "email": "brad@bjc.id.au"},
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"keywords": ["global", "namespace", "class", "autoload"],
 	"readmeFilename": "README.md",
 	"main": "./index",
