@@ -121,3 +121,19 @@ fs.readdirSync('./node_modules').forEach(function(module)
 		Namespace(module, require(module));
 	}
 });
+
+// We also need to load modules from the directory above us
+// if we have been included as a dep to some other framework,
+// like for example bjnode
+if (path.resolve(__dirname+'/..') != path.resolve('./node_modules'))
+{
+	fs.readdirSync(__dirname+'/..').forEach(function(module)
+	{
+		// We don't want to include ourselves again
+		if (module != 'globalise')
+		{
+			// Require the module and load what it exports into the global scope
+			Namespace(module, require(module));
+		}
+	});
+}
