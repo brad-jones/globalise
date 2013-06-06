@@ -109,7 +109,14 @@ var core_modules =
 
 // Lets loop through all those and require them
 // and add the export to the global scope.
-core_modules.forEach(function(module){ Namespace(module, require(module)); });
+core_modules.forEach(function(module)
+{
+	// Just double check it doesn't already exist
+	if (typeof global[module] == 'undefined')
+	{
+		Namespace(module, require(module));
+	}
+});
 
 // Now we need to load all the installed modules, only local to this app
 fs.readdirSync('./node_modules').forEach(function(module)
@@ -117,8 +124,12 @@ fs.readdirSync('./node_modules').forEach(function(module)
 	// We don't want to include ourselves again
 	if (module != 'globalise')
 	{
-		// Require the module and load what it exports into the global scope
-		Namespace(module, require(module));
+		// Just double check it doesn't already exist
+		if (typeof global[module] == 'undefined')
+		{
+			// Require the module and load what it exports into the global scope
+			Namespace(module, require(module));
+		}
 	}
 });
 
@@ -129,8 +140,8 @@ if (path.resolve(__dirname+'/..') != path.resolve('./node_modules'))
 {
 	fs.readdirSync(__dirname+'/..').forEach(function(module)
 	{
-		// We don't want to include ourselves again
-		if (module != 'globalise')
+		// Just double check it doesn't already exist
+		if (typeof global[module] == 'undefined')
 		{
 			// Require the module and load what it exports into the global scope
 			Namespace(module, require(module));

@@ -68,6 +68,31 @@ Okay and now for the autoloading part, same example as above:
 
 **Yay no more requires ever again!!!**
 
+Creating Your Own Framework as a Node Module
+============================================
+So you actully think this is really cool (if you do your probably another PHP
+dev like me). You have written your own classes and so fourth which is also
+really cool and now you are thinking you would like to wrap up your framework
+into a node module and publish it with npm so others can install it easily
+with npm.
+
+This is how I suggest you do it:
+
+	1. Create a index.js file and place the following:
+	require('globalise');
+	globalise.autoload(__dirname+'/lib');
+	
+	2. Get your classes and so fourth and put them inside the lib folder.
+	
+	3. Create a package.json file that lists globalise and any other modules
+	   that your OOP framework depends on.
+	
+	4. Publish your package with npm
+	
+	5. User comes along and installs your module with NPM, they will get
+	globalise obviously. And because globalise is well global they can also use
+	globalise.autoload() if they want to.
+
 The Fine Print
 ==============
 I'll admit this probably has far reaching implications that I am unaware of
