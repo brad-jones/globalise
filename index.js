@@ -118,33 +118,33 @@ core_modules.forEach(function(module)
 	}
 });
 
-// Now we need to load all the installed modules, only local to this app
-fs.readdirSync('./node_modules').forEach(function(module)
+// We use this below
+function LoadModules(module)
 {
-	// We don't want to include ourselves again
-	if (module != 'globalise')
+	// Exclude hidden folders
+	if (module.charAt(0) != '.')
 	{
-		// Just double check it doesn't already exist
-		if (typeof global[module] == 'undefined')
+		// We don't want to include ourselves again
+		if (module != 'globalise')
 		{
-			// Require the module and load what it exports into the global scope
-			Namespace(module, require(module));
+			// Just double check it doesn't already exist
+			if (typeof global[module] == 'undefined')
+			{
+				// Require the module and load what it
+				// exports into the global scope
+				Namespace(module, require(module));
+			}
 		}
 	}
-});
+}
+
+// Now we need to load all the installed modules, only local to this app
+fs.readdirSync('./node_modules').forEach(LoadModules);
 
 // We also need to load modules from the directory above us
 // if we have been included as a dep to some other framework,
 // like for example bjnode
 if (path.resolve(__dirname+'/..') != path.resolve('./node_modules'))
 {
-	fs.readdirSync(__dirname+'/..').forEach(function(module)
-	{
-		// Just double check it doesn't already exist
-		if (typeof global[module] == 'undefined')
-		{
-			// Require the module and load what it exports into the global scope
-			Namespace(module, require(module));
-		}
-	});
+	fs.readdirSync(__dirname+'/..').forEach(LoadModules);
 }
